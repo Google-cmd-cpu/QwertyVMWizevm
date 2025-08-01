@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QwertyVM Console</title>
+  <meta charset="UTF-8">
+  <style>
+    html, body, iframe {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      border: none;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="vncFrame" src="about:blank"></iframe>
+
+  <script>
+    const url = new URLSearchParams(location.search);
+    const customWS = url.get("customws");
+    const directWS = url.get("ws");
+
+    const wsUrl = customWS || "wss://wizevm.live/collab-vm/vm1";
+
+    const socket = new WebSocket(wsUrl);
+
+    socket.onopen = () => {
+      console.log("✅ Підключено до WebSocket:", wsUrl);
+    };
+
+    socket.onmessage = (event) => {
+      const data = event.data;
+      if (data.startsWith("ws://") || data.startsWith("wss://")) {
+        const host = data.replace("ws://", "").replace("wss://", "").split(":")[0];
+        const port = data.split(":")[2];
+        const proto = data.startsWith("wss://") ? "https" : "http";
+        const novncUrl = `${proto}://novnc.com/noVNC/vnc.html?host=${host}&port=${port}&autoconnect=true`;
+        document.getElementById("vncFrame").src = novncUrl;
+      } else {
+        document.body.innerHTML = "<h1>❌ Невірне повідомлення від WebSocket</h1>";
+        console.warn("Received non-VNC data:", data);
+      }
+    };
+
+    socket.onerror = (err) => {
+      document.body.innerHTML = "<h1>❌ Помилка WebSocket-підключення</h1>";
+      console.error(err);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QwertyVM 3.1</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="intro">
+    <img src="assets/intro.gif" alt="Welcome" />
+  </div>
+
+  <h1 data-lang="welcome">Welcome to QwertyVM 3.1</h1>
+  <p data-lang="thanks">Я дуже старався і списував в ChatGPT. Це, звісно, кінець моєї ідеї. Більше нема поки. (Дякую OpenAI.com)</p>
+
+  <div class="lang-switcher">
+    <select id="language">
+      <option value="en">English</option>
+      <option value="uk">Українська</option>
+      <option value="ru">Русский</option>
+      <option value="zipzizpipzpzpzpzzipzzo">🛸 zipzizpipzpzpzpzzipzzo</option>
+    </select>
+  </div>
+
+  <div class="vm-list">
+    <div class="vm" onclick="connectVNC('ws://vnc.woozy.eu.org:5901')">
+      <img src="https://via.placeholder.com/200x150" alt="VM" />
+      <p>Windows XP - Public</p>
+    </div>
+    <div class="vm" onclick="connectVNC('ws://vnc.woozy.eu.org:5902')">
+      <img src="https://via.placeholder.com/200x150" alt="VM" />
+      <p>UserVM: Admin's VM</p>
+    </div>
+  </div>
+
+  <div class="uservm">
+    <h3>🔐 Підключення до UserVM</h3>
+    <input type="text" id="uservmInput" placeholder="Введіть назву UserVM">
+    <button onclick="connectUserVM()">Підключитись</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
